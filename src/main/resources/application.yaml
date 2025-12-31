@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: notification-service
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+  rabbitmq:
+    addresses: "${APP_URL}"
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${APP_EMAIL}
+    password: ${APP_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+broker:
+  queue:
+    email:
+      name: default.email
+
+management:
+  metrics:
+    tags:
+      service: ${spring.application.name}
+  server:
+    port: 9090
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: 'health,prometheus'
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    prometheus:
+      enabled: true
